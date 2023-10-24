@@ -3,7 +3,9 @@ package baseball;
 import camp.nextstep.edu.missionutils.Console;
 import camp.nextstep.edu.missionutils.Randoms;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 public class Player {
@@ -44,7 +46,12 @@ public class Player {
         String input = Console.readLine();
         validationInputLength(input);
         validationValueInRange(input);
-        return null;
+        List<Integer> inputNumList = new ArrayList<>();
+        for (int i = 0; i < MAX_SIZE; i++) {
+            inputNumList.add(Integer.parseInt(input.substring(i, i + 1)));
+        }
+        validationIsUnique(inputNumList);
+        return inputNumList;
     }
 
     private void validationInputLength(String inputString) {
@@ -57,6 +64,13 @@ public class Player {
         String pattern = "^[1-9]*$";
         if (!Pattern.matches(pattern, inputString)) {
             throw new IllegalArgumentException("1~9까지의 숫자만 입력 가능합니다.");
+        }
+    }
+
+    private void validationIsUnique(List<Integer> inputNumList) {
+        Set<Integer> set = new HashSet<>(inputNumList);
+        if (set.size() != MAX_SIZE) {
+            throw new IllegalArgumentException("서로 다른 수를 입력해야 합니다.");
         }
     }
 
